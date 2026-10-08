@@ -39,7 +39,7 @@ export function createApp({allowedOrigins=(process.env.ALLOWED_ORIGINS||'').spli
         }
         if(url.pathname==='/api/rooms'&&req.method==='POST'){
           clean();if(rooms.size>=500)throw new GameError('Der Server ist voll.',503);
-          const state=createState(body.game,body.seats);let id;do{id=randomBytes(4).toString('hex').toUpperCase();}while(rooms.has(id));
+          const state=createState(body.game,body.seats,undefined,body.options||{});let id;do{id=randomBytes(4).toString('hex').toUpperCase();}while(rooms.has(id));
           const secret=token(),players=Array(body.seats).fill(null);players[0]={name:username(body.name),token:secret,seen:now};
           const room={id,game:body.game,seats:body.seats,players,phase:'lobby',state,version:0,updated:now};rooms.set(id,room);json(201,{token:secret,...view(room,0)});return;
         }
@@ -64,7 +64,7 @@ export function createApp({allowedOrigins=(process.env.ALLOWED_ORIGINS||'').spli
           if(a.type==='start'||a.type==='restart'||a.type==='lobby'){
             if(seat!==0)throw new GameError('Nur die Gastgeberperson darf starten.',403);
             if(a.type!=='lobby'&&r.players.some(p=>!p))throw new GameError('Warte, bis alle Plätze besetzt sind.');
-            r.state=createState(r.game,r.seats);r.phase=a.type==='lobby'?'lobby':'playing';
+            r.state=createState(r.game,r.seats,undefined,{pairs:r.state.pairs});r.phase=a.type==='lobby'?'lobby':'playing';
           }else if(a.type==='kick'){
             if(seat!==0||r.phase!=='lobby'||!Number.isInteger(a.seat)||a.seat<=0||a.seat>=r.seats)throw new GameError('Dieser Platz kann nicht freigegeben werden.',403);
             r.players[a.seat]=null;
@@ -79,7 +79,7 @@ export function createApp({allowedOrigins=(process.env.ALLOWED_ORIGINS||'').spli
       if(!['GET','HEAD'].includes(req.method)){json(405,{error:'Methode nicht unterstützt.'});return;}
       const decoded=decodeURIComponent(url.pathname),filename=path.resolve(ROOT,'.'+(decoded==='/'?'/index.html':decoded));
       if(!filename.startsWith(ROOT+path.sep)||decoded.split('/').some(p=>p.startsWith('.')))throw new GameError('Nicht gefunden.',404);
-      const ext=path.extname(filename),mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.svg':'image/svg+xml','.png':'image/png','.json':'application/json'}[ext];
+      const ext=path.extname(filename),mime={'.html':'text/html','.css':'text/css','.js':'text/javascript','.mjs':'text/javascript','.txt':'text/plain','.svg':'image/svg+xml','.png':'image/png','.json':'application/json'}[ext];
       if(!mime)throw new GameError('Nicht gefunden.',404);
       let data;try{data=await readFile(filename);}catch{throw new GameError('Nicht gefunden.',404);}
       res.writeHead(200,{'Content-Type':mime+'; charset=utf-8','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff','Referrer-Policy':'same-origin'});res.end(req.method==='HEAD'?undefined:data);

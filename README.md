@@ -1,6 +1,6 @@
 # Spielraum · Open Browser Game Lib
 
-Deutschsprachige Browser-Spielesammlung mit 50 Katalogeinträgen, 11 eigenen Spielen und 9 Spielen mit echten Mehrspieler-Räumen für getrennte Geräte. Eigener Code, Illustrationen und Regeltexte stehen unter der MIT-Lizenz.
+Deutschsprachige Browser-Spielesammlung mit 51 Katalogeinträgen, 14 eigenen Spielen und 10 Spielen mit echten Mehrspieler-Räumen für getrennte Geräte. Eigener Code, Illustrationen und Regeltexte stehen unter der MIT-Lizenz.
 
 Repository: https://github.com/xLordTime/Open-Browser-Game-Lib
 
@@ -22,22 +22,25 @@ Der Gastgeber muss den Server laufen lassen. Falls andere Geräte ihn nicht erre
 | Tic-Tac-Toe | Computer oder zu zweit | 2 |
 | Vier gewinnt | Computer oder zu zweit | 2 |
 | Mühle | Computer oder zu zweit | 2 |
-| Klassisches Laufspiel | 2–4 am gleichen Gerät | 2–4 |
+| Klassisches Laufspiel | 2–4 Plätze, bis zu 3 Bots | 2–4 |
 | Crazy Eights / Mau-Mau | Computer oder Kartenübergabe | 2 |
-| Memory | Alleine oder zu zweit | 2–4 |
+| Memory | 4–24 Paare, 1–6 Plätze mit Bots | 2–6 |
 | Würfelbecher | Freie Wertung | 2–6 |
 | Zeichenatelier | Zeichnen und PNG-Export | 2–8, gemeinsame Leinwand |
 | Klanglabor | Acht synthetisierte Töne | 2–8, geteilte Tonereignisse |
+| Schach | 2 Plätze, 3 Bot-Stärken, alle Sonderzüge | 2 |
+| Rommé | 2–6 Plätze, bis zu 5 Bots, Hausregeln ohne Joker | — |
+| Stadt & Straßen | 2–6 Plätze, bis zu 5 Bots, eigene Grundstücksspiel-Variante | — |
 | 2048 | Spielstand, Rekord, Rückgängig | — |
 | Minesweeper | Sicherer erster Klick, Flaggenmodus | — |
 
 Die Handbücher beschreiben die tatsächlich implementierten Hausregeln. Würfelbecher verwendet freie Wertung; Klanglabor ist wegen der Netzwerklatenz kein synchroner Musiksequenzer.
 
-Rommé, Skat, Schach und die aufgeführten kommerziellen Spiele sind über die jeweiligen Anbieter erreichbar. Sie wurden nicht als eigene Spiele nachgebaut. Anbieter regeln ihre eigenen Konten, Preise und Mehrspieler-Räume. Hidden Folks ist eine Anbieterinformation ohne zugesicherte Web-Demo; Card Hunter setzt keine historische Browser-Version voraus.
+Skat und die aufgeführten kommerziellen Spiele sind über die jeweiligen Anbieter erreichbar. Rommé und Schach haben jetzt eigene spielbare Umsetzungen; zusätzlich bleiben externe Alternativen verlinkt. Anbieter regeln ihre eigenen Konten, Preise und Mehrspieler-Räume. Hidden Folks ist eine Anbieterinformation ohne zugesicherte Web-Demo; Card Hunter setzt keine historische Browser-Version voraus.
 
 ## Oberfläche
 
-Illustrierte Kategorie- und Spielkacheln, Suche, Modi-Filter, Favoriten, Zufallsauswahl und Spieleabend-Planer. Jeder der 50 Einträge besitzt einen **Handbuch**-Tab. Eigene Spiele zeigen ihre Regeln auch während des Spiels. **Einstellungen** enthält helles/dunkles/System-Design, Lautstärke, Ton, reduzierte Bewegung, größere Bedienelemente, Anzeigename, externe Links und die Mehrspieler-Serveradresse.
+Illustrierte Kategorie- und Spielkacheln, Suche, Modi-Filter, Favoriten, Zufallsauswahl und Spieleabend-Planer. Jeder der 51 Einträge besitzt einen **Handbuch**-Tab. Eigene Spiele zeigen ihre Regeln auch während des Spiels. **Einstellungen** enthält sechs Designs (Wald hell/dunkel, Ozean, Lavendel, Sonnenuntergang, Mitternacht) plus Systemwahl, Bot-Stärke (Leicht/Mittel/Schwer), Vorgaben für Menschen und Bots, Memory-Paarzahl, Lautstärke, Ton, reduzierte Bewegung, größere Bedienelemente, Anzeigename, externe Links und die Mehrspieler-Serveradresse.
 
 ## Online selbst hosten
 
@@ -77,3 +80,11 @@ Prüfungen umfassen Spielregeln, Gewinnbedingungen, verdeckte Informationen, Zug
 ## Lizenz
 
 Siehe LICENSE und THIRD_PARTY_NOTICES.md. Die MIT-Lizenz gilt für die eigene Sammlung und ihre Implementierungen. Sie erteilt keine Rechte an Marken, Bildern oder Software der verlinkten Drittanbieter.
+
+## Bots und neue Hausregeln
+
+Vorgaben unter **Einstellungen → Spiele & Bots** setzen. Memory, Laufspiel, Rommé, Schach und Stadt & Straßen haben außerdem eine eigene Platz- und Stärkeauswahl im Spiel. Änderungen dort starten eine neue Runde. Rommé, Memory und Stadt & Straßen erlauben bis zu sechs Plätze (maximal fünf Bots bei einer Person); Laufspiel vier Plätze (maximal drei Bots); Schach und die anderen Duelle zwei Plätze. Bots laufen lokal im Browser. Netzwerk-Räume werden von Menschen besetzt.
+
+Memory-Bots merken sich ausschließlich aufgedeckte Karten. Schach-Bots verwenden Zufall, Materialbewertung oder begrenzte Suche über drei Halbzüge; sie sind keine Meisterschach-Engine. Rommé spielt mit 104 Karten ohne Joker und mindestens 30 Punkten bei der ersten Auslage. Stadt & Straßen nutzt 20 Felder, Kauf, Miete, Farbgruppen, bis zu drei Häuser, automatische Liquidation und ein 200-Züge-Limit; Auktionen, Hypotheken und Handel sind nicht enthalten. Details stehen in jedem Handbuch.
+
+Die enthaltene Schach-Regelbibliothek chess.js 1.4.0 steht unter BSD-2-Clause; siehe THIRD_PARTY_NOTICES.md und dist/vendor/chess-LICENSE.txt.

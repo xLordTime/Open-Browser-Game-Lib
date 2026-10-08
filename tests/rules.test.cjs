@@ -43,9 +43,13 @@ assert.deepEqual(Array.from(check('millNeighbors(0)')).sort((a,b)=>a-b), [1,9]);
 assert.deepEqual(Array.from(check('millNeighbors(4)')).sort((a,b)=>a-b), [1,3,5,7]);
 for (let i=0; i<24; i++) assert.equal(check(`millNeighbors(${i}).every(n=>millNeighbors(n).includes(${i}))`), true);
 vm.runInContext(fs.readFileSync('dist/catalog.js', 'utf8'), context);
-assert.equal(check('GAMES.length'), 50);
-assert.equal(check('new Set(GAMES.map(g=>g.id)).size'), 50);
-assert.equal(check('GAMES.filter(g=>g.engine).length'), 11);
+assert.equal(check('GAMES.length'), 51);
+assert.equal(check('new Set(GAMES.map(g=>g.id)).size'), 51);
+assert.equal(check('GAMES.filter(g=>g.engine).length'), 14);
 assert.equal(check("GAMES.every(g=>CATEGORIES.some(c=>c.id===g.category)&&g.mode.length&&(g.engine||g.url))"), true);
 assert.equal(check("GAMES.filter(g=>g.url).every(g=>/^https:\\/\\//.test(g.url))"), true);
 console.log('Passed: catalog integrity, all Tic-Tac-Toe human continuations, four Connect Four directions, row boundaries and Mühle adjacency.');
+
+vm.runInContext(source.slice(source.indexOf('function chooseConnectMove(')), context);
+assert.equal(check("(()=>{const b=Array(42).fill(0);b[35]=b[36]=b[37]=2;const before=b.join();const c=chooseConnectMove(b,3);return c===3&&b.join()===before})()"),true);
+assert.equal(check("(()=>{const b=Array(42).fill(0);b[35]=b[36]=b[37]=1;return chooseConnectMove(b,3)})()"),3);

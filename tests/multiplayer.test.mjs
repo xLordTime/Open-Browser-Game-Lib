@@ -43,7 +43,7 @@ test('Würfelbecher hält Würfel und begrenzt Würfe; Zusammenarbeit begrenzt E
  const d=createState('draw',2);applyAction(d,1,{type:'stroke',points:[[0,.5],[1,.6]],color:'#336633',width:5});assert.equal(d.strokes.length,1);assert.throws(()=>applyAction(d,1,{type:'clear'}),/Gastgeber/);assert.throws(()=>applyAction(d,0,{type:'stroke',points:[[NaN,0]],color:'#fff000',width:5}),/Zeichenwerte/);
  const audio=createState('sound',2);applyAction(audio,1,{type:'tone',note:7});assert.equal(audio.tones[0].id,1);assert.throws(()=>applyAction(audio,0,{type:'tone',note:8}),/Ton/);
 });
-test('Handbücher für alle 50 Einträge; alle Kategorie-Grafiken vorhanden',async()=>{
+test('Handbücher für alle 51 Einträge; alle Kategorie-Grafiken vorhanden',async()=>{
  const ctx=vm.createContext({});vm.runInContext(await readFile('dist/catalog.js','utf8'),ctx);vm.runInContext(await readFile('dist/handbooks.js','utf8'),ctx);
  const missing=vm.runInContext('GAMES.filter(g=>!HANDBOOKS[g.id]||HANDBOOKS[g.id].length<3).map(g=>g.id)',ctx);assert.equal(missing.length,0);
  for(const cat of vm.runInContext('CATEGORIES.slice(1).map(c=>c.id)',ctx))assert((await readFile('dist/assets/category-'+cat+'.svg','utf8')).includes('<svg'));
