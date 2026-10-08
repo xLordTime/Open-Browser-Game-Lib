@@ -1,0 +1,9 @@
+{
+  "name":"spielraum",
+  "version":"2.0.0",
+  "private":true,
+  "description":"Open-Source Browser-Spielesammlung mit LAN-Spielräumen",
+  "license":"MIT",
+  "engines":{"node":">=20"},
+  "scripts":{"start":"node server.mjs","test":"node tests/rules.test.cjs && node --test tests/multiplayer.test.mjs"}
+}
